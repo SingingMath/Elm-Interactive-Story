@@ -1,0 +1,346 @@
+var _user$project$Main$getStory = F2(
+	function (stories, id) {
+		var pred = function (story) {
+			return _elm_lang$core$Native_Utils.eq(story.id, id);
+		};
+		var _p0 = _elm_lang$core$List$head(
+			A2(_elm_lang$core$List$filter, pred, stories));
+		if (_p0.ctor === 'Nothing') {
+			return _elm_lang$core$Native_Utils.crashCase(
+				'Main',
+				{
+					start: {line: 82, column: 9},
+					end: {line: 87, column: 22}
+				},
+				_p0)('INVALID ID');
+		} else {
+			return _p0._0;
+		}
+	});
+var _user$project$Main$divStyle = _elm_lang$html$Html_Attributes$style(
+	{
+		ctor: '::',
+		_0: {ctor: '_Tuple2', _0: 'display', _1: 'flex'},
+		_1: {
+			ctor: '::',
+			_0: {ctor: '_Tuple2', _0: 'justify-content', _1: 'center'},
+			_1: {
+				ctor: '::',
+				_0: {ctor: '_Tuple2', _0: 'font-size', _1: '1em'},
+				_1: {
+					ctor: '::',
+					_0: {ctor: '_Tuple2', _0: 'align-items', _1: 'center'},
+					_1: {
+						ctor: '::',
+						_0: {ctor: '_Tuple2', _0: 'flex-direction', _1: 'column'},
+						_1: {ctor: '[]'}
+					}
+				}
+			}
+		}
+	});
+var _user$project$Main$Story = F3(
+	function (a, b, c) {
+		return {id: a, narrative: b, options: c};
+	});
+var _user$project$Main$Option = F2(
+	function (a, b) {
+		return {title: a, toId: b};
+	});
+var _user$project$Main$bigStory = {
+	ctor: '::',
+	_0: A3(
+		_user$project$Main$Story,
+		'main',
+		'Kenny Kallmann fell into a portal and came out somewhere. What would he do?',
+		{
+			ctor: '::',
+			_0: A2(_user$project$Main$Option, 'Go left', 'end1'),
+			_1: {
+				ctor: '::',
+				_0: A2(_user$project$Main$Option, 'Go right', 'rightChoice'),
+				_1: {
+					ctor: '::',
+					_0: A2(_user$project$Main$Option, 'Just stay there', 'stayChoice'),
+					_1: {ctor: '[]'}
+				}
+			}
+		}),
+	_1: {
+		ctor: '::',
+		_0: A3(
+			_user$project$Main$Story,
+			'end1',
+			'You die. ',
+			{
+				ctor: '::',
+				_0: A2(_user$project$Main$Option, 'Restart', 'main'),
+				_1: {ctor: '[]'}
+			}),
+		_1: {
+			ctor: '::',
+			_0: A3(
+				_user$project$Main$Story,
+				'rightChoice',
+				'Kenny meets Jeremy Chen in an alley behind Beijing Cafe. ',
+				{
+					ctor: '::',
+					_0: A2(_user$project$Main$Option, 'Fight Him!', 'fightChoice'),
+					_1: {
+						ctor: '::',
+						_0: A2(_user$project$Main$Option, 'Face off Jeremy in a math competition', 'mathChoice'),
+						_1: {ctor: '[]'}
+					}
+				}),
+			_1: {ctor: '[]'}
+		}
+	}
+};
+var _user$project$Main$Model = F4(
+	function (a, b, c, d) {
+		return {entireStory: a, currentStory: b, saves: c, mode: d};
+	});
+var _user$project$Main$SaveScreen = {ctor: 'SaveScreen'};
+var _user$project$Main$Game = {ctor: 'Game'};
+var _user$project$Main$update = F2(
+	function (msg, model) {
+		var _p2 = msg;
+		switch (_p2.ctor) {
+			case 'Choice':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{currentStory: _p2._0});
+			case 'Load':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{currentStory: _p2._0, mode: _user$project$Main$Game});
+			case 'OpenSave':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{mode: _user$project$Main$SaveScreen});
+			default:
+				return A2(_elm_lang$core$List$member, model.currentStory, model.saves) ? model : _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						saves: {ctor: '::', _0: model.currentStory, _1: model.saves}
+					});
+		}
+	});
+var _user$project$Main$initialState = {
+	entireStory: _user$project$Main$bigStory,
+	currentStory: 'main',
+	saves: {ctor: '[]'},
+	mode: _user$project$Main$Game
+};
+var _user$project$Main$SaveGame = {ctor: 'SaveGame'};
+var _user$project$Main$OpenSave = {ctor: 'OpenSave'};
+var _user$project$Main$Load = function (a) {
+	return {ctor: 'Load', _0: a};
+};
+var _user$project$Main$renderSaves = F2(
+	function (currentStory, saves) {
+		var cardStyle = _elm_lang$html$Html_Attributes$style(
+			{
+				ctor: '::',
+				_0: {ctor: '_Tuple2', _0: 'border', _1: 'solid 1px black'},
+				_1: {
+					ctor: '::',
+					_0: {ctor: '_Tuple2', _0: 'padding', _1: '20px'},
+					_1: {
+						ctor: '::',
+						_0: {ctor: '_Tuple2', _0: 'width', _1: '200px'},
+						_1: {
+							ctor: '::',
+							_0: {ctor: '_Tuple2', _0: 'height', _1: '100px'},
+							_1: {
+								ctor: '::',
+								_0: {ctor: '_Tuple2', _0: 'display', _1: 'flex'},
+								_1: {
+									ctor: '::',
+									_0: {ctor: '_Tuple2', _0: 'justify-content', _1: 'center'},
+									_1: {
+										ctor: '::',
+										_0: {ctor: '_Tuple2', _0: 'background-color', _1: 'lightgray'},
+										_1: {
+											ctor: '::',
+											_0: {ctor: '_Tuple2', _0: 'font-size', _1: '1em'},
+											_1: {
+												ctor: '::',
+												_0: {ctor: '_Tuple2', _0: 'width', _1: '50%'},
+												_1: {ctor: '[]'}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			});
+		var renderSave = function (save) {
+			var story = A2(_user$project$Main$getStory, _user$project$Main$bigStory, save);
+			return A2(
+				_elm_lang$html$Html$div,
+				{
+					ctor: '::',
+					_0: cardStyle,
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Events$onClick(
+							_user$project$Main$Load(story.id)),
+						_1: {ctor: '[]'}
+					}
+				},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$h2,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(story.id),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$p,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(story.narrative),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}
+				});
+		};
+		return A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _user$project$Main$divStyle,
+				_1: {ctor: '[]'}
+			},
+			A2(
+				_elm_lang$core$List$append,
+				A2(_elm_lang$core$List$map, renderSave, saves),
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$button,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onClick(
+								_user$project$Main$Load(currentStory)),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text('Return'),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}));
+	});
+var _user$project$Main$Choice = function (a) {
+	return {ctor: 'Choice', _0: a};
+};
+var _user$project$Main$renderGame = function (story) {
+	var renderOption = function (option) {
+		return A2(
+			_elm_lang$html$Html$button,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Events$onClick(
+					_user$project$Main$Choice(option.toId)),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html$text(option.title),
+				_1: {ctor: '[]'}
+			});
+	};
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$h1,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('Story!'),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$h2,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(story.narrative),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{ctor: '[]'},
+						A2(_elm_lang$core$List$map, renderOption, story.options)),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$br,
+							{ctor: '[]'},
+							{ctor: '[]'}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$button,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$OpenSave),
+									_1: {ctor: '[]'}
+								},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text('Saves'),
+									_1: {ctor: '[]'}
+								}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$button,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$SaveGame),
+										_1: {ctor: '[]'}
+									},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text('Save Current Game'),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}
+						}
+					}
+				}
+			}
+		});
+};
+var _user$project$Main$view = function (model) {
+	var _p3 = model.mode;
+	if (_p3.ctor === 'Game') {
+		return _user$project$Main$renderGame(
+			A2(_user$project$Main$getStory, model.entireStory, model.currentStory));
+	} else {
+		return A2(_user$project$Main$renderSaves, model.currentStory, model.saves);
+	}
+};
+var _user$project$Main$main = _elm_lang$html$Html$beginnerProgram(
+	{view: _user$project$Main$view, update: _user$project$Main$update, model: _user$project$Main$initialState})();
